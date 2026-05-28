@@ -1,0 +1,113 @@
+import { useState } from "react";
+import { kcSanitize } from "keycloakify/lib/kcSanitize";
+import type { PageProps } from "keycloakify/login/pages/PageProps";
+import type { KcContext } from "../KcContext";
+import type { I18n } from "../i18n";
+
+export default function LoginRecoveryAuthnCodeInput(
+    props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-input.ftl" }>, I18n>
+) {
+    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+
+    const { url, messagesPerField, recoveryAuthnCodesInputBean } = kcContext;
+    const { msg, msgStr } = i18n;
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const hasError = messagesPerField.existsError("recoveryCodeInput");
+
+    const logoSrc         = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
+    const illustrationSrc = `${import.meta.env.BASE_URL}metronic/media/illustrations/33.svg`;
+
+    return (
+        <Template
+            kcContext={kcContext}
+            i18n={i18n}
+            doUseDefaultCss={doUseDefaultCss}
+            classes={classes}
+            headerNode={msg("auth-recovery-code-header")}
+            displayMessage={!hasError}
+        >
+            <form
+                id="kc-recovery-code-login-form"
+                className="flex flex-col gap-5"
+                action={url.loginAction}
+                method="post"
+                onSubmit={() => { setIsSubmitting(true); return true; }}
+            >
+                {/* Logo */}
+                <div className="flex justify-center">
+                    <img src={logoSrc} alt="Logo" className="h-8" />
+                </div>
+
+                {/* Illustration */}
+                <div className="flex justify-center py-1">
+                    <img
+                        alt="Recovery code"
+                        className="h-20"
+                        src={illustrationSrc}
+                    />
+                </div>
+
+                {/* Title */}
+                <div className="text-center">
+                    <h3 className="text-lg font-medium text-mono mb-1">
+                        {msg("auth-recovery-code-header")}
+                    </h3>
+                    <p className="text-sm text-secondary-foreground">
+                        {msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
+                    </p>
+                </div>
+
+                {/* Code number badge */}
+                <div className="flex justify-center">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                        <i className="ki-filled ki-key text-sm" />
+                        {msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
+                    </span>
+                </div>
+
+                {/* Input */}
+                <div className="flex flex-col gap-1.5">
+                    <label htmlFor="recoveryCodeInput" className="sr-only">
+                        {msg("auth-recovery-code-header")}
+                    </label>
+                    <input
+                        id="recoveryCodeInput"
+                        name="recoveryCodeInput"
+                        type="text"
+                        autoFocus
+                        autoComplete="off"
+                        placeholder="xxxxx-xxxxx-xxxxx"
+                        className="kt-input text-center font-mono tracking-wider"
+                        aria-invalid={hasError}
+                        aria-describedby={hasError ? "input-error-recovery" : undefined}
+                    />
+                    {hasError && (
+                        <span
+                            id="input-error-recovery"
+                            className="auth-error flex items-start justify-center gap-1.5 text-xs text-destructive mt-1"
+                            role="alert"
+                            aria-live="polite"
+                        >
+                            <i className="ki-filled ki-information-2 text-sm shrink-0 mt-px" />
+                            <span dangerouslySetInnerHTML={{ __html: kcSanitize(messagesPerField.get("recoveryCodeInput")) }} />
+                        </span>
+                    )}
+                </div>
+
+                {/* Submit */}
+                <button
+                    type="submit"
+                    name="login"
+                    id="kc-login"
+                    className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                >
+                    {isSubmitting && <i className="ki-filled ki-loading animate-spin me-2" />}
+                    {msgStr("doLogIn")}
+                </button>
+            </form>
+        </Template>
+    );
+}
