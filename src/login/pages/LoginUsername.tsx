@@ -39,13 +39,13 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
         >
             <form
                 id="kc-form-login"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsLoginButtonDisabled(true); return true; }}
             >
                 {/* Branding + title */}
-                <div className="text-center mb-2.5">
+                <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
                         <img src={logoSrc} alt="Logo" className="h-8" />
                     </a>
@@ -96,7 +96,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                 {/* Username field */}
                 {realm.password && !usernameHidden && (
                     <div className="flex flex-col gap-1.5">
-                        <label htmlFor="username" className="kt-form-label font-normal text-mono">
+                        <label htmlFor="username" className="kt-form-label mb-0 text-sm font-medium text-mono">
                             {!realm.loginWithEmailAllowed
                                 ? msg("username")
                                 : !realm.registrationEmailAsUsername
@@ -137,7 +137,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 
                 {/* Remember me */}
                 {realm.rememberMe && !usernameHidden && (
-                    <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-1">
+                    <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-0.5">
                         <input
                             id="rememberMe"
                             name="rememberMe"
@@ -145,7 +145,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                             defaultChecked={!!login.rememberMe}
                             className="kt-checkbox kt-checkbox-sm"
                         />
-                        <span className="kt-checkbox-label">{msg("rememberMe")}</span>
+                        <span className="kt-checkbox-label text-sm">{msg("rememberMe")}</span>
                     </label>
                 )}
 
@@ -157,7 +157,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                         id="kc-login"
                         disabled={isLoginButtonDisabled}
                         aria-busy={isLoginButtonDisabled}
-                        className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="kt-btn kt-btn-primary mt-1 flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         {isLoginButtonDisabled && <i className="ki-filled ki-loading animate-spin me-2" />}
                         {msgStr("doLogIn")}

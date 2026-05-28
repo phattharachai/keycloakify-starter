@@ -27,13 +27,13 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
         >
             <form
                 id="kc-form-login"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}
             >
                 {/* Branding + title */}
-                <div className="text-center mb-2.5">
+                <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
                         <img src={logoSrc} alt="Logo" className="h-8" />
                     </a>
@@ -44,12 +44,12 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
 
                 {/* Password field */}
                 <div className="flex flex-col gap-1.5">
-                    <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <label htmlFor="password" className="kt-form-label font-normal text-mono">
+                    <div className="flex items-baseline justify-between gap-3">
+                        <label htmlFor="password" className="kt-form-label mb-0 min-w-0 text-sm font-medium text-mono">
                             {msg("password")}
                         </label>
                         {realm.resetPasswordAllowed && (
-                            <a className="text-sm kt-link shrink-0 text-right" href={url.loginResetCredentialsUrl}>
+                            <a className="kt-link shrink-0 whitespace-nowrap text-xs font-medium text-right sm:text-sm" href={url.loginResetCredentialsUrl}>
                                 {msg("doForgotPassword")}
                             </a>
                         )}
@@ -80,13 +80,12 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="kt-btn kt-btn-primary mt-1 flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
                 >
                     {isSubmitting && <i className="ki-filled ki-loading animate-spin me-2" />}
                     {msg("doLogIn")}
-                    {!isSubmitting && <i className="ki-filled ki-black-right ms-1" />}
                 </button>
 
                 <div className="text-center">

@@ -58,6 +58,7 @@ const LoginX509Info   = lazy(() => import("./pages/LoginX509Info"));
 
 // Profile
 const LoginUpdateProfile = lazy(() => import("./pages/LoginUpdateProfile"));
+const Terms = lazy(() => import("./pages/Terms"));
 
 const doMakeUserConfirmPassword = true;
 const doUseDefaultCss = false;
@@ -122,6 +123,8 @@ export default function KcPage(props: { kcContext: KcContext }) {
                         return <LoginX509Info kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={doUseDefaultCss} />;
                     case "login-update-profile.ftl":
                         return <LoginUpdateProfile kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={doUseDefaultCss} UserProfileFormFields={UserProfileFormFields} doMakeUserConfirmPassword={doMakeUserConfirmPassword} />;
+                    case "terms.ftl":
+                        return <Terms kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={doUseDefaultCss} />;
                     default:
                         return (
                             <DefaultPage

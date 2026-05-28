@@ -32,13 +32,13 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
         >
             <form
                 id="kc-reset-password-form"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}
             >
                 {/* Branding + title */}
-                <div className="text-center mb-2.5">
+                <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
                         <img src={logoSrc} alt="Logo" className="h-8" />
                     </a>
@@ -52,7 +52,7 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
 
                 {/* Username / email field */}
                 <div className="flex flex-col gap-1.5">
-                    <label htmlFor="username" className="kt-form-label font-normal text-mono">
+                    <label htmlFor="username" className="kt-form-label mb-0 text-sm font-medium text-mono">
                         {fieldLabel}
                     </label>
                     <input
@@ -88,13 +88,12 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="kt-btn kt-btn-primary mt-1 flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
                 >
                     {isSubmitting && <i className="ki-filled ki-loading animate-spin me-2" />}
                     {msg("doSubmit")}
-                    {!isSubmitting && <i className="ki-filled ki-black-right ms-1" />}
                 </button>
 
                 <div className="text-center">

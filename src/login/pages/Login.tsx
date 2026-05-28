@@ -47,13 +47,13 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         >
             <form
                 id="kc-form-login"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsLoginButtonDisabled(true); return true; }}
             >
                 {/* Branding + title */}
-                <div className="text-center mb-2.5">
+                <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
                         <img src={logoSrc} alt="Logo" className="h-8" />
                     </a>
@@ -115,7 +115,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                         {/* Username / email */}
                         {!usernameHidden && (
                             <div className="flex flex-col gap-1.5">
-                                <label htmlFor="username" className="kt-form-label font-normal text-mono">
+                                <label htmlFor="username" className="kt-form-label mb-0 text-sm font-medium text-mono">
                                     {!realm.loginWithEmailAllowed
                                         ? msg("username")
                                         : !realm.registrationEmailAsUsername
@@ -156,13 +156,13 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 
                         {/* Password */}
                         <div className="flex flex-col gap-1.5">
-                            <div className="flex items-start justify-between gap-2 flex-wrap">
-                                <label htmlFor="password" className="kt-form-label font-normal text-mono">
+                            <div className="flex items-baseline justify-between gap-3">
+                                <label htmlFor="password" className="kt-form-label mb-0 min-w-0 text-sm font-medium text-mono">
                                     {msg("password")}
                                 </label>
                                 {realm.resetPasswordAllowed && (
                                     <a
-                                        className="text-sm kt-link shrink-0 text-right"
+                                        className="kt-link shrink-0 whitespace-nowrap text-xs font-medium text-right sm:text-sm"
                                         href={url.loginResetCredentialsUrl}
                                     >
                                         {msg("doForgotPassword")}
@@ -194,7 +194,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 
                         {/* Remember me */}
                         {realm.rememberMe && !usernameHidden && (
-                            <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-1">
+                            <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-0.5">
                                 <input
                                     id="rememberMe"
                                     name="rememberMe"
@@ -202,7 +202,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                     defaultChecked={!!login.rememberMe}
                                     className="kt-checkbox kt-checkbox-sm"
                                 />
-                                <span className="kt-checkbox-label">{msg("rememberMe")}</span>
+                                <span className="kt-checkbox-label text-sm">{msg("rememberMe")}</span>
                             </label>
                         )}
 
@@ -220,7 +220,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                             name="login"
                             id="kc-login"
                             aria-busy={isLoginButtonDisabled}
-                            className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                            className="kt-btn kt-btn-primary mt-1 flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                         >
                             {isLoginButtonDisabled
                                 ? <><i className="ki-filled ki-loading animate-spin me-2" />{msgStr("doLogIn")}</>

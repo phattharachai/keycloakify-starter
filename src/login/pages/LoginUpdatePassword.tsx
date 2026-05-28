@@ -29,13 +29,13 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
         >
             <form
                 id="kc-passwd-update-form"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}
             >
                 {/* Branding + title */}
-                <div className="text-center mb-2.5">
+                <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
                         <img src={logoSrc} alt="Logo" className="h-8" />
                     </a>
@@ -46,7 +46,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
 
                 {/* New password */}
                 <div className="flex flex-col gap-1.5">
-                    <label htmlFor="password-new" className="kt-form-label font-normal text-mono">
+                    <label htmlFor="password-new" className="kt-form-label mb-0 text-sm font-medium text-mono">
                         {msg("passwordNew")}
                     </label>
                     <PasswordInput
@@ -74,7 +74,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
 
                 {/* Confirm password */}
                 <div className="flex flex-col gap-1.5">
-                    <label htmlFor="password-confirm" className="kt-form-label font-normal text-mono">
+                    <label htmlFor="password-confirm" className="kt-form-label mb-0 text-sm font-medium text-mono">
                         {msg("passwordConfirm")}
                     </label>
                     <PasswordInput
@@ -100,7 +100,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
                 </div>
 
                 {/* Logout other sessions */}
-                <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-1">
+                <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-0.5 py-0.5">
                     <input
                         type="checkbox"
                         id="logout-sessions"
@@ -113,7 +113,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
                 </label>
 
                 {/* Actions */}
-                <div className="flex gap-2.5">
+                <div className="mt-1 flex gap-2.5">
                     <button
                         type="submit"
                         className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"

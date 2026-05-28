@@ -24,7 +24,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         "register.ftl",
         "login-update-profile.ftl",
         "login-config-totp.ftl",
-        "login-recovery-authn-code-config.ftl"
+        "login-recovery-authn-code-config.ftl",
+        "terms.ftl"
     ].includes(kcContext.pageId);
 
     useEffect(() => {
