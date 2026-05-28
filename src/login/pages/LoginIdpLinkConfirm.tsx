@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, { pageId: "login-idp-link-confirm.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -10,7 +11,6 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
     const { msg } = i18n;
     const [pendingAction, setPendingAction] = useState<"linkAccount" | "updateProfile" | null>(null);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

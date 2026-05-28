@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function SamlPostForm(props: PageProps<Extract<KcContext, { pageId: "saml-post-form.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -22,7 +23,6 @@ export default function SamlPostForm(props: PageProps<Extract<KcContext, { pageI
         htmlFormElement.requestSubmit();
     }, [htmlFormElement, samlPost.url]);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("saml.post-form.title")} displayMessage={false}>

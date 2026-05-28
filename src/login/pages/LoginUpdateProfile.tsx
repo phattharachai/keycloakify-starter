@@ -6,6 +6,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 type Props = PageProps<Extract<KcContext, { pageId: "login-update-profile.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -50,7 +51,6 @@ export default function LoginUpdateProfile(props: Props) {
     const [isFormSubmittable, setIsFormSubmittable] = useState(false);
     const [isSubmitting,      setIsSubmitting]      = useState(false);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -99,7 +99,7 @@ export default function LoginUpdateProfile(props: Props) {
                     />
 
                     {/* Submit */}
-                    <div className="flex gap-2.5 mt-2">
+                    <div className="auth-action-row mt-2">
                         <button
                             type="submit"
                             disabled={!isFormSubmittable || isSubmitting}
@@ -115,7 +115,8 @@ export default function LoginUpdateProfile(props: Props) {
                                 name="cancel-aia"
                                 value="true"
                                 formNoValidate
-                                className="kt-btn kt-btn-outline flex justify-center"
+                                className="kt-btn kt-btn-outline flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                                disabled={isSubmitting}
                             >
                                 {msg("doCancel")}
                             </button>

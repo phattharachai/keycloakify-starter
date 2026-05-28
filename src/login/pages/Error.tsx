@@ -3,6 +3,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { stripLeadingActionMarker } from "../stripLeadingActionMarker";
+import { logoSrc } from "../assets";
 
 export default function Error(
     props: PageProps<Extract<KcContext, { pageId: "error.ftl" }>, I18n>
@@ -11,7 +12,6 @@ export default function Error(
     const { message, client, skipLink } = kcContext;
     const { msg, msgStr } = i18n;
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function DeleteCredential(
     props: PageProps<Extract<KcContext, { pageId: "delete-credential.ftl" }>, I18n>
@@ -13,7 +14,6 @@ export default function DeleteCredential(
     const [isAccepting, setIsAccepting] = useState(false);
     const [isCancelling, setIsCancelling] = useState(false);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

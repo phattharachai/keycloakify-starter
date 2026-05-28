@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function DeleteAccountConfirm(
     props: PageProps<Extract<KcContext, { pageId: "delete-account-confirm.ftl" }>, I18n>
@@ -13,7 +14,6 @@ export default function DeleteAccountConfirm(
     const [isConfirming, setIsConfirming] = useState(false);
     const [isCancelling, setIsCancelling] = useState(false);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

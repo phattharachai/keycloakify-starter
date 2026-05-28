@@ -6,6 +6,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 type Props = PageProps<Extract<KcContext, { pageId: "idp-review-user-profile.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -45,7 +46,6 @@ export default function IdpReviewUserProfile(props: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { kcClsx } = getKcClsx({ doUseDefaultCss, classes: { ...profileClasses, ...classes } });
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -92,7 +92,7 @@ export default function IdpReviewUserProfile(props: Props) {
                         doMakeUserConfirmPassword={doMakeUserConfirmPassword}
                     />
 
-                    <div className="mt-2 flex gap-2.5">
+                    <div className="auth-action-row mt-2">
                         <button
                             type="submit"
                             disabled={!isFormSubmittable || isSubmitting}

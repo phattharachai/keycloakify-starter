@@ -4,15 +4,7 @@ import { clsx } from "keycloakify/tools/clsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-
-function resolveSocialIcon(providerId: string | undefined, iconClasses: string | undefined) {
-    const brandLogos = `${import.meta.env.BASE_URL}metronic/media/brand-logos`;
-    switch (providerId) {
-        case "google": return { src: `${brandLogos}/google.svg` };
-        case "apple":  return { src: `${brandLogos}/apple-black.svg` };
-        default:       return { faClass: iconClasses };
-    }
-}
+import { logoSrc, resolveSocialIcon } from "../assets";
 
 export default function LoginUsername(props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -22,11 +14,10 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
-    const hasError   = messagesPerField.existsError("username");
-    const showReg    = realm.password && realm.registrationAllowed && !registrationDisabled;
-    const showSocial = realm.password && social?.providers !== undefined && social.providers.length !== 0;
-
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
+    const hasError     = messagesPerField.existsError("username");
+    const showReg      = realm.password && realm.registrationAllowed && !registrationDisabled;
+    const showSocial   = realm.password && social?.providers !== undefined && social.providers.length !== 0;
+    const usernameKey  = !realm.loginWithEmailAllowed ? "username" : !realm.registrationEmailAsUsername ? "usernameOrEmail" : "email";
 
     return (
         <Template
@@ -97,11 +88,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                 {realm.password && !usernameHidden && (
                     <div className="flex flex-col gap-1.5">
                         <label htmlFor="username" className="kt-form-label mb-0 text-sm font-medium text-mono">
-                            {!realm.loginWithEmailAllowed
-                                ? msg("username")
-                                : !realm.registrationEmailAsUsername
-                                  ? msg("usernameOrEmail")
-                                  : msg("email")}
+                            {msg(usernameKey)}
                         </label>
                         <input
                             id="username"
@@ -109,13 +96,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                             type="text"
                             autoFocus
                             autoComplete="username"
-                            placeholder={
-                                !realm.loginWithEmailAllowed
-                                    ? msgStr("username")
-                                    : !realm.registrationEmailAsUsername
-                                      ? msgStr("usernameOrEmail")
-                                      : msgStr("email")
-                            }
+                            placeholder={msgStr(usernameKey)}
                             defaultValue={login.username ?? ""}
                             className="kt-input"
                             aria-invalid={hasError}

@@ -1,8 +1,10 @@
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
+import { clsx } from "keycloakify/tools/clsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { stripLeadingActionMarker } from "../stripLeadingActionMarker";
+import { logoSrc } from "../assets";
 
 const actionIcons: Record<string, string> = {
     CONFIGURE_TOTP: "ki-security-user",
@@ -17,7 +19,6 @@ export default function Info(
     const { advancedMsgStr, msgStr } = i18n;
     const { messageHeader, message, requiredActions, skipLink, pageRedirectUri, actionUri, client } = kcContext;
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     const titleHtml = messageHeader
         ? advancedMsgStr(messageHeader)
@@ -89,7 +90,7 @@ export default function Info(
                 {actionLink && (
                     <a
                         href={actionLink.href}
-                        className={`kt-btn flex justify-center ${actionLink.isPrimary ? "kt-btn-primary" : "kt-btn-outline"}`}
+                        className={clsx("kt-btn flex justify-center", actionLink.isPrimary ? "kt-btn-primary" : "kt-btn-outline")}
                     >
                         <span>{actionLink.label}</span>
                     </a>

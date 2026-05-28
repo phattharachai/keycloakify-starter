@@ -1,12 +1,12 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function SelectAuthenticator(props: PageProps<Extract<KcContext, { pageId: "select-authenticator.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
     const { url, auth } = kcContext;
     const { msg, advancedMsg } = i18n;
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -14,7 +14,6 @@ export default function SelectAuthenticator(props: PageProps<Extract<KcContext, 
             i18n={i18n}
             doUseDefaultCss={doUseDefaultCss}
             classes={classes}
-            displayInfo={false}
             displayMessage={false}
             headerNode={msg("loginChooseAuthenticator")}
         >

@@ -4,21 +4,8 @@ import { clsx } from "keycloakify/tools/clsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc, resolveSocialIcon } from "../assets";
 import { PasswordInput } from "./PasswordInput";
-
-type SocialIcon = { src?: string; faClass?: string };
-
-function resolveSocialIcon(
-    providerId: string | undefined,
-    iconClasses: string | undefined
-): SocialIcon {
-    const brandLogos = `${import.meta.env.BASE_URL}metronic/media/brand-logos`;
-    switch (providerId) {
-        case "google": return { src: `${brandLogos}/google.svg` };
-        case "apple":  return { src: `${brandLogos}/apple-black.svg` };
-        default:       return { faClass: iconClasses };
-    }
-}
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -33,8 +20,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     const hasError         = hasUsernameError || hasPasswordError;
     const showRegisterLink = realm.password && realm.registrationAllowed && !registrationDisabled;
     const showSocial       = realm.password && social?.providers !== undefined && social.providers.length !== 0;
-
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
+    const usernameKey      = !realm.loginWithEmailAllowed ? "username" : !realm.registrationEmailAsUsername ? "usernameOrEmail" : "email";
 
     return (
         <Template
@@ -116,11 +102,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                         {!usernameHidden && (
                             <div className="flex flex-col gap-1.5">
                                 <label htmlFor="username" className="kt-form-label mb-0 text-sm font-medium text-mono">
-                                    {!realm.loginWithEmailAllowed
-                                        ? msg("username")
-                                        : !realm.registrationEmailAsUsername
-                                          ? msg("usernameOrEmail")
-                                          : msg("email")}
+                                    {msg(usernameKey)}
                                 </label>
                                 <input
                                     id="username"
@@ -129,13 +111,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                     autoFocus
                                     autoComplete="username"
                                     defaultValue={login.username ?? ""}
-                                    placeholder={
-                                        !realm.loginWithEmailAllowed
-                                            ? msgStr("username")
-                                            : !realm.registrationEmailAsUsername
-                                              ? msgStr("usernameOrEmail")
-                                              : msgStr("email")
-                                    }
+                                    placeholder={msgStr(usernameKey)}
                                     className="kt-input"
                                     aria-invalid={hasUsernameError}
                                     aria-describedby={hasUsernameError ? "input-error-username" : undefined}

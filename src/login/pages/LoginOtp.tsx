@@ -1,8 +1,9 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc, illustrationSrc } from "../assets";
 
 export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "login-otp.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -13,8 +14,6 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
     const [isSubmitting, setIsSubmitting] = useState(false);
     const hasError = messagesPerField.existsError("totp");
 
-    const logoSrc         = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
-    const illustrationSrc = `${import.meta.env.BASE_URL}metronic/media/illustrations/34.svg`;
 
     return (
         <Template
@@ -42,7 +41,7 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
                     <img
                         alt="2FA verification"
                         className="h-20"
-                        src={illustrationSrc}
+                        src={illustrationSrc(34)}
                     />
                 </div>
 
@@ -57,19 +56,17 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
                 {otpLogin.userOtpCredentials.length > 1 && (
                     <div className="flex flex-col gap-2 rounded-lg border border-border bg-muted/30 p-2">
                         {otpLogin.userOtpCredentials.map((otpCredential, index) => (
-                            <Fragment key={index}>
-                                <label className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-2 py-1.5 hover:bg-background">
-                                    <input
-                                        id={`kc-otp-credential-${index}`}
-                                        type="radio"
-                                        name="selectedCredentialId"
-                                        value={otpCredential.id}
-                                        defaultChecked={otpCredential.id === otpLogin.selectedCredentialId}
-                                        className="kt-radio"
-                                    />
-                                    <span className="text-sm text-mono">{otpCredential.userLabel}</span>
-                                </label>
-                            </Fragment>
+                            <label key={index} className="kt-label flex items-center gap-2 cursor-pointer rounded-md px-2 py-1.5 hover:bg-background">
+                                <input
+                                    id={`kc-otp-credential-${index}`}
+                                    type="radio"
+                                    name="selectedCredentialId"
+                                    value={otpCredential.id}
+                                    defaultChecked={otpCredential.id === otpLogin.selectedCredentialId}
+                                    className="kt-radio"
+                                />
+                                <span className="text-sm text-mono">{otpCredential.userLabel}</span>
+                            </label>
                         ))}
                     </div>
                 )}

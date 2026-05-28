@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { clsx } from "keycloakify/tools/clsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function LoginX509Info(props: PageProps<Extract<KcContext, { pageId: "login-x509-info.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -13,7 +15,6 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
 
     const { subjectDN, username, isUserEnabled } = x509.formData;
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -37,8 +38,8 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
 
                 {/* Icon + title */}
                 <div className="flex flex-col items-center gap-3 text-center">
-                    <div className={`flex items-center justify-center size-16 rounded-full ${isUserEnabled ? "bg-success/10" : "bg-muted"}`}>
-                        <i className={`ki-filled ki-shield-tick text-3xl ${isUserEnabled ? "text-success" : "text-muted-foreground"}`} />
+                    <div className={clsx("flex items-center justify-center size-16 rounded-full", isUserEnabled ? "bg-success/10" : "bg-muted")}>
+                        <i className={clsx("ki-filled ki-shield-tick text-3xl", isUserEnabled ? "text-success" : "text-muted-foreground")} />
                     </div>
                     <div>
                         <h3 className="text-lg font-medium text-mono leading-none mb-1">
@@ -96,7 +97,7 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-2.5">
+                <div className="auth-action-row">
                     <button
                         name="login"
                         id="kc-login"
@@ -113,7 +114,7 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
                             name="cancel"
                             id="kc-cancel"
                             type="submit"
-                            className="kt-btn kt-btn-outline flex justify-center transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                            className="kt-btn kt-btn-outline flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                             disabled={isSubmitting}
                         >
                             {msgStr("doIgnore")}

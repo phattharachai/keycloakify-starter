@@ -4,6 +4,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { PasswordInput } from "./PasswordInput";
+import { logoSrc } from "../assets";
 
 export default function LoginPassword(props: PageProps<Extract<KcContext, { pageId: "login-password.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -14,7 +15,6 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
     const [isSubmitting, setIsSubmitting] = useState(false);
     const hasError = messagesPerField.existsError("password");
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

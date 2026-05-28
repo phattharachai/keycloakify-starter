@@ -3,6 +3,7 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pageId: "login-config-totp.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -16,7 +17,6 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
     const hasLabelError    = messagesPerField.existsError("userLabel");
     const isManual         = mode === "manual";
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -219,7 +219,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
                     </label>
 
                     {/* Submit */}
-                    <div className="flex gap-2.5">
+                    <div className="auth-action-row">
                         <button
                             type="submit"
                             id="saveTOTPBtn"
@@ -236,7 +236,8 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
                                 id="cancelTOTPBtn"
                                 name="cancel-aia"
                                 value="true"
-                                className="kt-btn kt-btn-outline flex justify-center"
+                                className="kt-btn kt-btn-outline flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                                disabled={isSubmitting}
                             >
                                 {msg("doCancel")}
                             </button>

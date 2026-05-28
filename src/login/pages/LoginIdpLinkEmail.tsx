@@ -1,6 +1,7 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc, illustrationSrc } from "../assets";
 
 export default function LoginIdpLinkEmail(props: PageProps<Extract<KcContext, { pageId: "login-idp-link-email.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -8,8 +9,6 @@ export default function LoginIdpLinkEmail(props: PageProps<Extract<KcContext, { 
     const { url, realm, brokerContext, idpAlias } = kcContext;
     const { msg } = i18n;
 
-    const logoSrc         = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
-    const illustrationSrc = `${import.meta.env.BASE_URL}metronic/media/illustrations/30.svg`;
 
     return (
         <Template
@@ -30,7 +29,7 @@ export default function LoginIdpLinkEmail(props: PageProps<Extract<KcContext, { 
                     <img
                         alt="Check your email"
                         className="max-h-[110px]"
-                        src={illustrationSrc}
+                        src={illustrationSrc(30)}
                     />
                 </div>
 

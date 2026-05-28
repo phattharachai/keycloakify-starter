@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function LoginOauth2DeviceVerifyUserCode(
     props: PageProps<Extract<KcContext, { pageId: "login-oauth2-device-verify-user-code.ftl" }>, I18n>
@@ -13,7 +14,6 @@ export default function LoginOauth2DeviceVerifyUserCode(
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

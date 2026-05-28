@@ -1,6 +1,7 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc, illustrationSrc } from "../assets";
 
 export default function LoginVerifyEmail(props: PageProps<Extract<KcContext, { pageId: "login-verify-email.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -8,8 +9,6 @@ export default function LoginVerifyEmail(props: PageProps<Extract<KcContext, { p
     const { msg } = i18n;
     const { url, user } = kcContext;
 
-    const logoSrc        = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
-    const illustrationSrc = `${import.meta.env.BASE_URL}metronic/media/illustrations/30.svg`;
 
     return (
         <Template
@@ -30,7 +29,7 @@ export default function LoginVerifyEmail(props: PageProps<Extract<KcContext, { p
                     <img
                         alt="Check your email"
                         className="max-h-[120px]"
-                        src={illustrationSrc}
+                        src={illustrationSrc(30)}
                     />
                 </div>
 

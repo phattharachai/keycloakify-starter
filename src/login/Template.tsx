@@ -30,7 +30,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     useEffect(() => {
         document.title = documentTitle ?? msgStr("loginTitle", realm.displayName || realm.name);
-    }, []);
+    }, [documentTitle, msgStr, realm.displayName, realm.name]);
 
     useSetClassName({ qualifiedName: "html", className: "h-full w-full overflow-x-hidden" });
     useSetClassName({
@@ -85,10 +85,13 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 .auth-shell .kt-btn-sm{width:auto;min-height:36px;border-radius:.55rem;padding-inline:.75rem;font-size:.8125rem;}
                 .auth-shell .kt-btn-icon{min-height:36px;min-width:36px;}
                 .auth-shell .kt-btn i{line-height:1;flex:0 0 auto;}
+                .auth-shell .auth-action-row{display:flex;gap:.625rem;min-width:0;}
+                .auth-shell .auth-action-row .kt-btn:not(.kt-btn-sm):not(.kt-btn-icon){width:auto;min-width:0;flex:1 1 0;}
                 .auth-shell .kt-checkbox,.auth-shell .kt-radio{min-width:18px;min-height:18px;}
                 .auth-shell .kt-label{min-height:32px;}
                 .auth-shell .auth-error{border:1px solid rgba(220,38,38,.18);background:rgba(254,242,242,.85);border-radius:.5rem;padding:.5rem .625rem;}
                 .auth-shell .auth-helper{color:rgb(71,85,105);}
+                @media (max-width: 420px){.auth-shell .auth-action-row{flex-direction:column;}.auth-shell .auth-action-row .kt-btn:not(.kt-btn-sm):not(.kt-btn-icon){width:100%;}}
                 @media (prefers-reduced-motion: reduce){.auth-shell .kt-input,.auth-shell .kt-btn,.auth-shell .auth-password-toggle{transition:none;}}
             `}</style>
 

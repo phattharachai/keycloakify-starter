@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 export default function LoginOauthGrant(props: PageProps<Extract<KcContext, { pageId: "login-oauth-grant.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, classes, Template } = props;
@@ -15,7 +16,6 @@ export default function LoginOauthGrant(props: PageProps<Extract<KcContext, { pa
     const appName      = client.name ? advancedMsgStr(client.name) : client.clientId;
     const hasLegalLinks = client.attributes.policyUri || client.attributes.tosUri;
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template

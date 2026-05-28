@@ -4,6 +4,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { PasswordInput } from "./PasswordInput";
+import { logoSrc } from "../assets";
 
 export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, { pageId: "login-update-password.ftl" }>, I18n>) {
     const { kcContext, i18n, Template, doUseDefaultCss, classes } = props;
@@ -16,7 +17,6 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
     const hasNewPasswordError     = messagesPerField.existsError("password");
     const hasConfirmPasswordError = messagesPerField.existsError("password-confirm");
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     return (
         <Template
@@ -113,7 +113,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
                 </label>
 
                 {/* Actions */}
-                <div className="mt-1 flex gap-2.5">
+                <div className="auth-action-row mt-1">
                     <button
                         type="submit"
                         className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
@@ -128,7 +128,8 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
                             type="submit"
                             name="cancel-aia"
                             value="true"
-                            className="kt-btn kt-btn-outline flex justify-center"
+                            className="kt-btn kt-btn-outline flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                            disabled={isSubmitting}
                         >
                             {msg("doCancel")}
                         </button>

@@ -7,6 +7,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc } from "../assets";
 
 type Props = PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -58,7 +59,6 @@ export default function Register(props: Props) {
     const [areTermsAccepted,  setAreTermsAccepted]  = useState(false);
     const [isSubmitting,      setIsSubmitting]      = useState(false);
 
-    const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
     // Required by invisible reCAPTCHA (v2 invisible / v3)
     useLayoutEffect(() => {
@@ -109,7 +109,7 @@ export default function Register(props: Props) {
                     {/* Already have account */}
                     <div className="flex items-center justify-center gap-1 font-medium">
                         <span className="text-sm text-secondary-foreground">
-                            Already have an account?
+                            {msg("alreadyHaveAccount")}
                         </span>
                         <a className="text-sm kt-link" href={url.loginUrl}>
                             {msg("doLogIn")}

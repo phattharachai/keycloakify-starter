@@ -3,6 +3,7 @@ import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { logoSrc, illustrationSrc } from "../assets";
 
 export default function LoginRecoveryAuthnCodeInput(
     props: PageProps<Extract<KcContext, { pageId: "login-recovery-authn-code-input.ftl" }>, I18n>
@@ -15,8 +16,6 @@ export default function LoginRecoveryAuthnCodeInput(
     const [isSubmitting, setIsSubmitting] = useState(false);
     const hasError = messagesPerField.existsError("recoveryCodeInput");
 
-    const logoSrc         = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
-    const illustrationSrc = `${import.meta.env.BASE_URL}metronic/media/illustrations/33.svg`;
 
     return (
         <Template
@@ -44,7 +43,7 @@ export default function LoginRecoveryAuthnCodeInput(
                     <img
                         alt="Recovery code"
                         className="h-20"
-                        src={illustrationSrc}
+                        src={illustrationSrc(33)}
                     />
                 </div>
 
@@ -56,14 +55,6 @@ export default function LoginRecoveryAuthnCodeInput(
                     <p className="text-sm text-secondary-foreground">
                         {msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
                     </p>
-                </div>
-
-                {/* Code number badge */}
-                <div className="flex justify-center">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                        <i className="ki-filled ki-key text-sm" />
-                        {msg("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
-                    </span>
                 </div>
 
                 {/* Input */}
