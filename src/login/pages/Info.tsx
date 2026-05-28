@@ -44,7 +44,7 @@ export default function Info(
             displayMessage={false}
             headerNode={<span dangerouslySetInnerHTML={{ __html: kcSanitize(titleHtml) }} />}
         >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
                 {/* Logo */}
                 <div className="flex justify-center">
                     <img src={logoSrc} alt="Logo" className="h-8" />

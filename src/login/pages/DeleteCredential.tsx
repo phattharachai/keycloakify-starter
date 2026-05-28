@@ -3,12 +3,14 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 
-export default function LinkIdpAction(props: PageProps<Extract<KcContext, { pageId: "link-idp-action.ftl" }>, I18n>) {
+export default function DeleteCredential(
+    props: PageProps<Extract<KcContext, { pageId: "delete-credential.ftl" }>, I18n>
+) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-
-    const { idpDisplayName, url } = kcContext;
+    const { url, credentialLabel } = kcContext;
     const { msg, msgStr } = i18n;
-    const [isContinuing, setIsContinuing] = useState(false);
+
+    const [isAccepting, setIsAccepting] = useState(false);
     const [isCancelling, setIsCancelling] = useState(false);
 
     const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
@@ -19,50 +21,48 @@ export default function LinkIdpAction(props: PageProps<Extract<KcContext, { page
             i18n={i18n}
             doUseDefaultCss={doUseDefaultCss}
             classes={classes}
-            headerNode={msg("linkIdpActionTitle", idpDisplayName)}
             displayMessage={false}
+            headerNode={msg("deleteCredentialTitle", credentialLabel)}
         >
-            <div className="flex flex-col gap-4">
-                {/* Logo */}
+            <div className="flex flex-col gap-5">
                 <div className="flex justify-center">
                     <img src={logoSrc} alt="Logo" className="h-8" />
                 </div>
 
-                {/* Icon + title */}
                 <div className="flex flex-col items-center gap-3 text-center">
-                    <div className="flex items-center justify-center size-16 rounded-full bg-primary/10">
-                        <i className="ki-filled ki-profile-circle text-primary text-3xl" />
+                    <div className="flex items-center justify-center size-16 rounded-full bg-destructive/10">
+                        <i className="ki-filled ki-key text-destructive text-3xl" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-medium text-mono leading-none mb-1">
-                            {msg("linkIdpActionTitle", idpDisplayName)}
+                        <h3 className="text-lg font-medium text-mono leading-none mb-1.5">
+                            {msg("deleteCredentialTitle", credentialLabel)}
                         </h3>
-                        <p className="text-sm text-secondary-foreground">
-                            {msg("linkIdpActionMessage", idpDisplayName)}
+                        <p id="kc-delete-text" className="text-sm text-secondary-foreground leading-relaxed">
+                            {msg("deleteCredentialMessage", credentialLabel)}
                         </p>
                     </div>
                 </div>
 
-                {/* Actions */}
-                <form action={url.loginAction} method="post" className="flex flex-col gap-2.5">
+                <form action={url.loginAction} method="POST" className="flex flex-col gap-2.5">
                     <button
+                        name="accept"
+                        id="kc-accept"
                         type="submit"
-                        name="continue"
-                        id="kc-continue"
-                        className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
-                        disabled={isContinuing || isCancelling}
-                        aria-busy={isContinuing}
-                        onClick={() => setIsContinuing(true)}
+                        className="kt-btn kt-btn-primary flex justify-center transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={isAccepting || isCancelling}
+                        aria-busy={isAccepting}
+                        onClick={() => setIsAccepting(true)}
                     >
-                        {isContinuing && <i className="ki-filled ki-loading animate-spin me-2" />}
-                        {msgStr("doContinue")}
+                        {isAccepting && <i className="ki-filled ki-loading animate-spin me-2" />}
+                        {msgStr("doConfirmDelete")}
                     </button>
                     <button
-                        type="submit"
                         name="cancel-aia"
-                        id="kc-cancel"
+                        value="true"
+                        id="kc-decline"
+                        type="submit"
                         className="kt-btn kt-btn-outline flex justify-center transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
-                        disabled={isContinuing || isCancelling}
+                        disabled={isAccepting || isCancelling}
                         aria-busy={isCancelling}
                         onClick={() => setIsCancelling(true)}
                     >
