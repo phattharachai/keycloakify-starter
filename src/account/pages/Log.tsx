@@ -27,52 +27,59 @@ export default function Log(props: PageProps<Extract<KcContext, { pageId: "log.f
                 </div>
 
                 <div className="account-data-section__body">
-                    <div className="account-table-shell">
-                        <table className="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>{msg("date")}</th>
-                                    <th>{msg("event")}</th>
-                                    <th>{msg("ip")}</th>
-                                    <th>{msg("client")}</th>
-                                    <th>{msg("details")}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {events.map((event, index) => (
-                                    <tr key={`${event.date}-${index}`}>
-                                        <td>{event.date ? new Date(event.date).toLocaleString() : ""}</td>
-                                        <td>
-                                            <span className="account-permission-pill">{event.event}</span>
-                                        </td>
-                                        <td>{event.ipAddress}</td>
-                                        <td>
-                                            {event.client ? (
-                                                <span className="account-application-link">{event.client}</span>
-                                            ) : (
-                                                <span className="account-empty-inline">-</span>
-                                            )}
-                                        </td>
-                                        <td>
-                                            {event.details.length > 0 ? (
-                                                <div className="account-permission-list">
-                                                    {event.details.map((detail, detailIndex) => (
-                                                        <span key={`${detail.key}-${detailIndex}`} className="account-permission-pill">
-                                                            <strong>{detail.key}</strong>
-                                                            <span aria-hidden="true">=</span>
-                                                            <span>{detail.value}</span>
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <span className="account-empty-inline">-</span>
-                                            )}
-                                        </td>
+                    {events.length === 0 ? (
+                        <div className="account-empty-state">
+                            <i className="ki-filled ki-time" aria-hidden="true" />
+                            <p>No account activity has been recorded yet.</p>
+                        </div>
+                    ) : (
+                        <div className="account-table-shell">
+                            <table className="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{msg("date")}</th>
+                                        <th>{msg("event")}</th>
+                                        <th>{msg("ip")}</th>
+                                        <th>{msg("client")}</th>
+                                        <th>{msg("details")}</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {events.map((event, index) => (
+                                        <tr key={`${event.date}-${index}`}>
+                                            <td>{event.date ? new Date(event.date).toLocaleString() : ""}</td>
+                                            <td>
+                                                <span className="account-permission-pill">{event.event}</span>
+                                            </td>
+                                            <td>{event.ipAddress}</td>
+                                            <td>
+                                                {event.client ? (
+                                                    <span className="account-application-link">{event.client}</span>
+                                                ) : (
+                                                    <span className="account-empty-inline">-</span>
+                                                )}
+                                            </td>
+                                            <td>
+                                                {event.details.length > 0 ? (
+                                                    <div className="account-permission-list">
+                                                        {event.details.map((detail, detailIndex) => (
+                                                            <span key={`${detail.key}-${detailIndex}`} className="account-permission-pill">
+                                                                <strong>{detail.key}</strong>
+                                                                <span aria-hidden="true">=</span>
+                                                                <span>{detail.value}</span>
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <span className="account-empty-inline">-</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </div>
             </section>
         </Template>

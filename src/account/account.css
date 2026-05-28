@@ -8,10 +8,7 @@
 
 .account-shell {
     min-height: 100vh;
-    background:
-        radial-gradient(circle at top left, rgba(47, 125, 246, 0.12), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.08), transparent 24%),
-        linear-gradient(180deg, #f8fafc 0%, #eff6ff 100%);
+    background: linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
 }
 
 .account-topbar {
@@ -44,9 +41,10 @@
 }
 
 .account-brand__logo {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 34px;
     object-fit: contain;
+    flex: 0 0 auto;
 }
 
 .account-brand__copy {
@@ -172,6 +170,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    min-width: 0;
     padding: 1.5rem;
     border: 1px solid rgba(226, 232, 240, 0.95);
     border-radius: 1.5rem;
@@ -244,14 +243,28 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    min-width: 0;
 }
 
 .account-panel__surface {
+    min-width: 0;
     padding: 1.5rem;
     border: 1px solid rgba(226, 232, 240, 0.95);
     border-radius: 1.5rem;
     background: rgba(255, 255, 255, 0.92);
     box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+}
+
+.account-shell .kt-btn {
+    min-height: 42px;
+    border-radius: 0.75rem;
+    font-weight: 600;
+}
+
+.account-shell .kt-btn:focus-visible,
+.account-shell .kt-input:focus {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
 
 .account-alert {
@@ -468,6 +481,9 @@ form {
 .account-table-shell {
     overflow: auto;
     border-radius: 1rem;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
 }
 
 .account-session-clients {
@@ -592,6 +608,37 @@ form {
 .account-empty-inline {
     color: #94a3b8;
     font-weight: 600;
+}
+
+.account-empty-state {
+    display: grid;
+    justify-items: center;
+    gap: 0.65rem;
+    padding: 2rem 1.25rem;
+    border: 1px dashed rgba(148, 163, 184, 0.55);
+    border-radius: 1rem;
+    background: rgba(248, 250, 252, 0.72);
+    color: #475569;
+    text-align: center;
+}
+
+.account-empty-state i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: rgba(239, 246, 255, 0.98);
+    color: #2563eb;
+    font-size: 1.25rem;
+}
+
+.account-empty-state p {
+    margin: 0;
+    max-width: 42ch;
+    font-size: 0.92rem;
+    line-height: 1.55;
 }
 
 .account-totp-steps {
@@ -733,9 +780,107 @@ input[style*="display: none"] {
     }
 
     .table {
-        display: block;
-        overflow-x: auto;
+        min-width: 640px;
         white-space: nowrap;
+    }
+
+    .account-table-shell {
+        position: relative;
+    }
+}
+
+@media (max-width: 720px) {
+    .account-topbar {
+        position: static;
+    }
+
+    .account-brand__logo {
+        width: 42px;
+        height: 28px;
+    }
+
+    .account-brand__eyebrow {
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+    }
+
+    .account-brand__title {
+        font-size: 0.95rem;
+    }
+
+    .account-layout {
+        gap: 1rem;
+        padding-top: 1rem;
+    }
+
+    .account-sidebar {
+        gap: 0.9rem;
+    }
+
+    .account-sidebar__heading {
+        display: none;
+    }
+
+    .account-nav {
+        display: flex;
+        gap: 0.55rem;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        padding-bottom: 0.15rem;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .account-nav__item {
+        flex: 0 0 auto;
+        min-height: 42px;
+        padding: 0.5rem 0.75rem 0.5rem 0.55rem;
+        border-radius: 999px;
+        scroll-snap-align: start;
+        white-space: nowrap;
+    }
+
+    .account-nav__icon {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+    }
+
+    .account-card-form__actions,
+    .account-card-form__actions-right {
+        width: 100%;
+    }
+
+    .account-card-form__actions-right .kt-btn,
+    .account-card-form__actions > .kt-btn {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 460px) {
+    .account-topbar__actions {
+        gap: 0.55rem;
+    }
+
+    .account-locale-switcher summary,
+    .account-action-link,
+    .account-signout-btn {
+        min-height: 38px;
+        padding: 0.55rem 0.75rem;
+        font-size: 0.83rem;
+    }
+
+    .account-card-form__actions-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .account-card-form__actions-right .kt-btn,
+    .account-card-form__actions > .kt-btn {
+        width: 100%;
     }
 }
 

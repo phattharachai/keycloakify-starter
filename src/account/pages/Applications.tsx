@@ -33,91 +33,98 @@ export default function Applications(props: PageProps<Extract<KcContext, { pageI
                     <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
                     <input type="hidden" id="referrer" name="referrer" value={stateChecker} />
 
-                    <div className="account-table-shell">
-                        <table className="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>{msg("application")}</th>
-                                    <th>{msg("availableRoles")}</th>
-                                    <th>{msg("grantedPermissions")}</th>
-                                    <th>{msg("additionalGrants")}</th>
-                                    <th>{msg("action")}</th>
-                                </tr>
-                            </thead>
+                    {applications.length === 0 ? (
+                        <div className="account-empty-state">
+                            <i className="ki-filled ki-element-11" aria-hidden="true" />
+                            <p>No connected applications are currently listed for this account.</p>
+                        </div>
+                    ) : (
+                        <div className="account-table-shell">
+                            <table className="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{msg("application")}</th>
+                                        <th>{msg("availableRoles")}</th>
+                                        <th>{msg("grantedPermissions")}</th>
+                                        <th>{msg("additionalGrants")}</th>
+                                        <th>{msg("action")}</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                {applications.map(application => {
-                                    const appLabel = (application.client.name && advancedMsg(application.client.name)) || application.client.clientId;
-                                    const showRevokeButton =
-                                        (application.client.consentRequired && application.clientScopesGranted.length > 0) ||
-                                        application.additionalGrants.length > 0;
+                                <tbody>
+                                    {applications.map(application => {
+                                        const appLabel = (application.client.name && advancedMsg(application.client.name)) || application.client.clientId;
+                                        const showRevokeButton =
+                                            (application.client.consentRequired && application.clientScopesGranted.length > 0) ||
+                                            application.additionalGrants.length > 0;
 
-                                    return (
-                                        <tr key={application.client.clientId}>
-                                            <td>
-                                                <div className="account-application-cell">
-                                                    {application.effectiveUrl ? (
-                                                        <a href={application.effectiveUrl} className="kt-link account-application-link">
-                                                            {appLabel}
-                                                        </a>
+                                        return (
+                                            <tr key={application.client.clientId}>
+                                                <td>
+                                                    <div className="account-application-cell">
+                                                        {application.effectiveUrl ? (
+                                                            <a href={application.effectiveUrl} className="kt-link account-application-link">
+                                                                {appLabel}
+                                                            </a>
+                                                        ) : (
+                                                            <span className="account-application-link">{appLabel}</span>
+                                                        )}
+                                                        <span className="account-application-client-id">{application.client.clientId}</span>
+                                                    </div>
+                                                </td>
+
+                                                <td>{renderAvailableRoles(application, advancedMsg, msg("inResource"))}</td>
+
+                                                <td>
+                                                    {application.client.consentRequired ? (
+                                                        <div className="account-permission-list">
+                                                            {application.clientScopesGranted.map(scope => (
+                                                                <span key={scope} className="account-permission-pill">
+                                                                    {advancedMsg(scope)}
+                                                                </span>
+                                                            ))}
+                                                        </div>
                                                     ) : (
-                                                        <span className="account-application-link">{appLabel}</span>
+                                                        <span className="account-permission-pill is-strong">{msg("fullAccess")}</span>
                                                     )}
-                                                    <span className="account-application-client-id">{application.client.clientId}</span>
-                                                </div>
-                                            </td>
+                                                </td>
 
-                                            <td>{renderAvailableRoles(application, advancedMsg, msg("inResource"))}</td>
+                                                <td>
+                                                    {application.additionalGrants.length > 0 ? (
+                                                        <div className="account-permission-list">
+                                                            {application.additionalGrants.map(grant => (
+                                                                <span key={grant} className="account-permission-pill">
+                                                                    {advancedMsg(grant)}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <span className="account-empty-inline">-</span>
+                                                    )}
+                                                </td>
 
-                                            <td>
-                                                {application.client.consentRequired ? (
-                                                    <div className="account-permission-list">
-                                                        {application.clientScopesGranted.map(scope => (
-                                                            <span key={scope} className="account-permission-pill">
-                                                                {advancedMsg(scope)}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    <span className="account-permission-pill is-strong">{msg("fullAccess")}</span>
-                                                )}
-                                            </td>
-
-                                            <td>
-                                                {application.additionalGrants.length > 0 ? (
-                                                    <div className="account-permission-list">
-                                                        {application.additionalGrants.map(grant => (
-                                                            <span key={grant} className="account-permission-pill">
-                                                                {advancedMsg(grant)}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    <span className="account-empty-inline">-</span>
-                                                )}
-                                            </td>
-
-                                            <td>
-                                                {showRevokeButton ? (
-                                                    <button
-                                                        type="submit"
-                                                        className="kt-btn kt-btn-outline"
-                                                        id={`revoke-${application.client.clientId}`}
-                                                        name="clientId"
-                                                        value={application.client.id}
-                                                    >
-                                                        {msg("revoke")}
-                                                    </button>
-                                                ) : (
-                                                    <span className="account-empty-inline">-</span>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
+                                                <td>
+                                                    {showRevokeButton ? (
+                                                        <button
+                                                            type="submit"
+                                                            className="kt-btn kt-btn-outline"
+                                                            id={`revoke-${application.client.clientId}`}
+                                                            name="clientId"
+                                                            value={application.client.id}
+                                                        >
+                                                            {msg("revoke")}
+                                                        </button>
+                                                    ) : (
+                                                        <span className="account-empty-inline">-</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </form>
             </section>
         </Template>

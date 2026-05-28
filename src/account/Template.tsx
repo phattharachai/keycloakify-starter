@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { clsx } from "keycloakify/tools/clsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
@@ -14,6 +14,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     const { url, features, realm, message, referrer } = kcContext;
 
     const resourcesPath = `${import.meta.env.BASE_URL}metronic`;
+    const activeNavItemRef = useRef<HTMLAnchorElement | null>(null);
 
     const navItems = [
         { id: "account", href: url.accountUrl, label: msgStr("account"), icon: "ki-user" },
@@ -22,7 +23,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         ...(features.identityFederation
             ? [{ id: "social", href: url.socialUrl, label: msgStr("federatedIdentity"), icon: "ki-profile-circle" }]
             : []),
-        { id: "sessions", href: url.sessionsUrl, label: msgStr("sessions"), icon: "ki-security-check" },
+        { id: "sessions", href: url.sessionsUrl, label: msgStr("sessions"), icon: "ki-shield-tick" },
         { id: "applications", href: url.applicationsUrl, label: msgStr("applications"), icon: "ki-element-11" },
         ...(features.log ? [{ id: "log", href: url.logUrl, label: msgStr("log"), icon: "ki-time" }] : []),
         ...(realm.userManagedAccessAllowed && features.authorization
@@ -45,6 +46,23 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     });
 
     const { isReadyToRender } = useInitialize({ kcContext, doUseDefaultCss });
+
+    useEffect(() => {
+        if (!isReadyToRender) {
+            return;
+        }
+
+        const activeNavItem = activeNavItemRef.current;
+        const nav = activeNavItem?.parentElement;
+
+        if (activeNavItem === undefined || activeNavItem === null || nav === undefined || nav === null) {
+            return;
+        }
+
+        requestAnimationFrame(() => {
+            nav.scrollLeft = activeNavItem.offsetLeft - nav.clientWidth / 2 + activeNavItem.clientWidth / 2;
+        });
+    }, [active, isReadyToRender]);
 
     if (!isReadyToRender) {
         return null;
@@ -112,6 +130,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             {navItems.map(item => (
                                 <a
                                     key={item.id}
+                                    ref={item.id === active ? activeNavItemRef : undefined}
                                     href={item.href}
                                     className={clsx("account-nav__item", item.id === active && "is-active")}
                                     aria-current={item.id === active ? "page" : undefined}

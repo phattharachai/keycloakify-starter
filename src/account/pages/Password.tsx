@@ -100,6 +100,8 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                                 autoComplete="new-password"
                                 className="kt-input account-card-form__input"
                                 value={newPassword}
+                                aria-invalid={newPasswordError !== ""}
+                                aria-describedby={newPasswordError !== "" ? "password-new-error" : undefined}
                                 onChange={event => {
                                     const nextValue = event.target.value;
                                     setNewPassword(nextValue);
@@ -116,7 +118,7 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                                 }}
                             />
                             {newPasswordError !== "" && (
-                                <span className="account-field-error" aria-live="polite">
+                                <span id="password-new-error" className="account-field-error" aria-live="polite">
                                     <i className="ki-filled ki-information-2 text-sm" aria-hidden="true" />
                                     <span dangerouslySetInnerHTML={{ __html: kcSanitize(newPasswordError) }} />
                                 </span>
@@ -134,6 +136,8 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                                 autoComplete="new-password"
                                 className="kt-input account-card-form__input"
                                 value={confirmPassword}
+                                aria-invalid={confirmPasswordError !== ""}
+                                aria-describedby={confirmPasswordError !== "" ? "password-confirm-error" : undefined}
                                 onChange={event => {
                                     const nextValue = event.target.value;
                                     setConfirmPassword(nextValue);
@@ -147,7 +151,7 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                                 }}
                             />
                             {confirmPasswordError !== "" && (
-                                <span className="account-field-error" aria-live="polite">
+                                <span id="password-confirm-error" className="account-field-error" aria-live="polite">
                                     <i className="ki-filled ki-information-2 text-sm" aria-hidden="true" />
                                     <span dangerouslySetInnerHTML={{ __html: kcSanitize(confirmPasswordError) }} />
                                 </span>

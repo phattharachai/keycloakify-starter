@@ -31,7 +31,12 @@ export default function FederatedIdentity(props: PageProps<Extract<KcContext, { 
 
                 <div className="account-data-section__body">
                     <div className="account-credential-list" id="federated-identities">
-                        {identities.map(identity => {
+                        {identities.length === 0 ? (
+                            <div className="account-empty-state">
+                                <i className="ki-filled ki-profile-circle" aria-hidden="true" />
+                                <p>No external identity providers are available for this account.</p>
+                            </div>
+                        ) : identities.map(identity => {
                             const inputId = `federated-identity-${identity.providerId}`;
                             const connected = identity.connected;
                             const canRemove = connected && federatedIdentity.removeLinkPossible;

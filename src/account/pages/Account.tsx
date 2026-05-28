@@ -15,7 +15,6 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
         value: string;
         required: boolean;
         disabled: boolean;
-        autoFocus: boolean;
     };
 
     const fields = [
@@ -25,8 +24,7 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
                   label: msgStr("username"),
                   value: account.username ?? "",
                   required: realm.editUsernameAllowed,
-                  disabled: !realm.editUsernameAllowed,
-                  autoFocus: false
+                  disabled: !realm.editUsernameAllowed
               }
             : null,
         {
@@ -34,24 +32,21 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
             label: msgStr("email"),
             value: account.email ?? "",
             required: true,
-            disabled: false,
-            autoFocus: true
+            disabled: false
         },
         {
             id: "firstName",
             label: msgStr("firstName"),
             value: account.firstName ?? "",
             required: true,
-            disabled: false,
-            autoFocus: false
+            disabled: false
         },
         {
             id: "lastName",
             label: msgStr("lastName"),
             value: account.lastName ?? "",
             required: true,
-            disabled: false,
-            autoFocus: false
+            disabled: false
         }
     ].filter((field): field is AccountField => field !== null);
 
@@ -79,6 +74,7 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
                     <div className="account-card-form__grid">
                         {fields.map(field => {
                             const hasError = messagesPerField.exists(field.id);
+                            const errorId = `${field.id}-error`;
 
                             return (
                                 <div key={field.id} className={clsx("account-card-form__field", hasError && "has-error")}>
@@ -90,15 +86,17 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
                                     <input
                                         id={field.id}
                                         name={field.id}
-                                        type="text"
+                                        type={field.id === "email" ? "email" : "text"}
                                         className="kt-input account-card-form__input"
                                         defaultValue={field.value}
                                         disabled={field.disabled}
-                                        autoFocus={field.autoFocus}
+                                        autoComplete={field.id === "email" ? "email" : field.id === "username" ? "username" : field.id === "firstName" ? "given-name" : "family-name"}
+                                        aria-invalid={hasError}
+                                        aria-describedby={hasError ? errorId : undefined}
                                     />
 
                                     {hasError && (
-                                        <span className="account-field-error" aria-live="polite">
+                                        <span id={errorId} className="account-field-error" aria-live="polite">
                                             <i className="ki-filled ki-information-2 text-sm" aria-hidden="true" />
                                             <span dangerouslySetInnerHTML={{ __html: kcSanitize(messagesPerField.get(field.id)) }} />
                                         </span>
@@ -116,7 +114,7 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
                         )}
 
                         <div className="account-card-form__actions-right">
-                            <button type="submit" className="kt-btn kt-btn-outline" name="submitAction" value="Cancel">
+                            <button type="submit" className="kt-btn kt-btn-outline" name="submitAction" value="Cancel" formNoValidate>
                                 {msg("doCancel")}
                             </button>
                             <button type="submit" className="kt-btn kt-btn-primary" name="submitAction" value="Save">

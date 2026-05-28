@@ -38,34 +38,41 @@ export default function Totp(props: PageProps<Extract<KcContext, { pageId: "totp
                         </div>
 
                         <div className="account-credential-list">
-                            {totp.otpCredentials.map((credential, index) => (
-                                <article key={credential.id} className="account-credential-card">
-                                    <div className="account-credential-card__body">
-                                        <h3 className="account-credential-card__title">{credential.userLabel || msg("mobile")}</h3>
-                                        <dl className="account-credential-card__meta">
-                                            <div>
-                                                <dt>{msg("mobile")}</dt>
-                                                <dd>{msg("mobile")}</dd>
-                                            </div>
-                                            {totp.otpCredentials.length > 1 && (
+                            {totp.otpCredentials.length === 0 ? (
+                                <div className="account-empty-state">
+                                    <i className="ki-filled ki-security-user" aria-hidden="true" />
+                                    <p>No authenticators are configured for this account.</p>
+                                </div>
+                            ) : (
+                                totp.otpCredentials.map((credential, index) => (
+                                    <article key={credential.id} className="account-credential-card">
+                                        <div className="account-credential-card__body">
+                                            <h3 className="account-credential-card__title">{credential.userLabel || msg("mobile")}</h3>
+                                            <dl className="account-credential-card__meta">
                                                 <div>
-                                                    <dt>ID</dt>
-                                                    <dd>{credential.id}</dd>
+                                                    <dt>{msg("mobile")}</dt>
+                                                    <dd>{msg("mobile")}</dd>
                                                 </div>
-                                            )}
-                                        </dl>
-                                    </div>
+                                                {totp.otpCredentials.length > 1 && (
+                                                    <div>
+                                                        <dt>ID</dt>
+                                                        <dd>{credential.id}</dd>
+                                                    </div>
+                                                )}
+                                            </dl>
+                                        </div>
 
-                                    <form action={url.totpUrl} method="post" className="account-credential-card__actions">
-                                        <input type="hidden" id={`stateChecker-${credential.id}`} name="stateChecker" value={stateChecker} />
-                                        <input type="hidden" id={`submitAction-${credential.id}`} name="submitAction" value="Delete" />
-                                        <input type="hidden" id={`credentialId-${credential.id}`} name="credentialId" value={credential.id} />
-                                        <button id={`remove-mobile-${index}`} type="submit" className="kt-btn kt-btn-outline">
-                                            {msg("doRemove")}
-                                        </button>
-                                    </form>
-                                </article>
-                            ))}
+                                        <form action={url.totpUrl} method="post" className="account-credential-card__actions">
+                                            <input type="hidden" id={`stateChecker-${credential.id}`} name="stateChecker" value={stateChecker} />
+                                            <input type="hidden" id={`submitAction-${credential.id}`} name="submitAction" value="Delete" />
+                                            <input type="hidden" id={`credentialId-${credential.id}`} name="credentialId" value={credential.id} />
+                                            <button id={`remove-mobile-${index}`} type="submit" className="kt-btn kt-btn-outline">
+                                                {msg("doRemove")}
+                                            </button>
+                                        </form>
+                                    </article>
+                                ))
+                            )}
                         </div>
                     </div>
                 ) : (
@@ -151,9 +158,10 @@ export default function Totp(props: PageProps<Extract<KcContext, { pageId: "totp
                                         autoComplete="off"
                                         className="kt-input account-card-form__input"
                                         aria-invalid={messagesPerField.existsError("totp")}
+                                        aria-describedby={messagesPerField.existsError("totp") ? "totp-error" : undefined}
                                     />
                                     {messagesPerField.existsError("totp") && (
-                                        <span className="account-field-error" aria-live="polite">
+                                        <span id="totp-error" className="account-field-error" aria-live="polite">
                                             <i className="ki-filled ki-information-2 text-sm" aria-hidden="true" />
                                             <span dangerouslySetInnerHTML={{ __html: kcSanitize(messagesPerField.get("totp")) }} />
                                         </span>
@@ -172,9 +180,10 @@ export default function Totp(props: PageProps<Extract<KcContext, { pageId: "totp
                                         autoComplete="off"
                                         className="kt-input account-card-form__input"
                                         aria-invalid={messagesPerField.existsError("userLabel")}
+                                        aria-describedby={messagesPerField.existsError("userLabel") ? "userLabel-error" : undefined}
                                     />
                                     {messagesPerField.existsError("userLabel") && (
-                                        <span className="account-field-error" aria-live="polite">
+                                        <span id="userLabel-error" className="account-field-error" aria-live="polite">
                                             <i className="ki-filled ki-information-2 text-sm" aria-hidden="true" />
                                             <span dangerouslySetInnerHTML={{ __html: kcSanitize(messagesPerField.get("userLabel")) }} />
                                         </span>
@@ -184,7 +193,7 @@ export default function Totp(props: PageProps<Extract<KcContext, { pageId: "totp
 
                             <div className="account-card-form__actions">
                                 <div className="account-card-form__actions-right">
-                                    <button type="submit" className="kt-btn kt-btn-outline" id="cancelTOTPBtn" name="submitAction" value="Cancel">
+                                    <button type="submit" className="kt-btn kt-btn-outline" id="cancelTOTPBtn" name="submitAction" value="Cancel" formNoValidate>
                                         {msg("doCancel")}
                                     </button>
                                     <button type="submit" className="kt-btn kt-btn-primary" id="saveTOTPBtn">
