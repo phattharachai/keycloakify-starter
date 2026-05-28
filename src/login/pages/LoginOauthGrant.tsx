@@ -25,7 +25,7 @@ export default function LoginOauthGrant(props: PageProps<Extract<KcContext, { pa
             classes={classes}
             headerNode={msg("oauthGrantTitle", appName)}
         >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
                 {/* Logo */}
                 <div className="flex justify-center">
                     <img src={logoSrc} alt="Logo" className="h-8" />

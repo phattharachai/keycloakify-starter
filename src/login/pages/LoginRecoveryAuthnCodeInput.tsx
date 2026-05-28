@@ -29,7 +29,7 @@ export default function LoginRecoveryAuthnCodeInput(
         >
             <form
                 id="kc-recovery-code-login-form"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}

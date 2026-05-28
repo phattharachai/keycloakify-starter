@@ -25,7 +25,7 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
         >
             <form
                 id="kc-x509-login-info"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.loginAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}
@@ -113,7 +113,8 @@ export default function LoginX509Info(props: PageProps<Extract<KcContext, { page
                             name="cancel"
                             id="kc-cancel"
                             type="submit"
-                            className="kt-btn kt-btn-outline flex justify-center"
+                            className="kt-btn kt-btn-outline flex justify-center transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                            disabled={isSubmitting}
                         >
                             {msgStr("doIgnore")}
                         </button>

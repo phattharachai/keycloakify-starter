@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
@@ -7,6 +8,7 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
 
     const { url, idpAlias } = kcContext;
     const { msg } = i18n;
+    const [pendingAction, setPendingAction] = useState<"linkAccount" | "updateProfile" | null>(null);
 
     const logoSrc = `${import.meta.env.BASE_URL}metronic/media/app/default-logo.svg`;
 
@@ -18,7 +20,7 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
             classes={classes}
             headerNode={msg("confirmLinkIdpTitle")}
         >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
                 {/* Logo */}
                 <div className="flex justify-center">
                     <img src={logoSrc} alt="Logo" className="h-8" />
@@ -46,9 +48,16 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
                         name="submitAction"
                         id="linkAccount"
                         value="linkAccount"
-                        className="kt-btn kt-btn-primary flex justify-center grow"
+                        className="kt-btn kt-btn-primary flex justify-center grow transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={pendingAction !== null}
+                        aria-busy={pendingAction === "linkAccount"}
+                        onClick={() => setPendingAction("linkAccount")}
                     >
-                        <i className="ki-filled ki-user-tick me-2" />
+                        {pendingAction === "linkAccount" ? (
+                            <i className="ki-filled ki-loading animate-spin me-2" />
+                        ) : (
+                            <i className="ki-filled ki-user-tick me-2" />
+                        )}
                         {msg("confirmLinkIdpContinue", idpAlias)}
                     </button>
                     <button
@@ -56,9 +65,16 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
                         name="submitAction"
                         id="updateProfile"
                         value="updateProfile"
-                        className="kt-btn kt-btn-outline flex justify-center"
+                        className="kt-btn kt-btn-outline flex justify-center transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={pendingAction !== null}
+                        aria-busy={pendingAction === "updateProfile"}
+                        onClick={() => setPendingAction("updateProfile")}
                     >
-                        <i className="ki-filled ki-user-edit me-2" />
+                        {pendingAction === "updateProfile" ? (
+                            <i className="ki-filled ki-loading animate-spin me-2" />
+                        ) : (
+                            <i className="ki-filled ki-user-edit me-2" />
+                        )}
                         {msg("confirmLinkIdpReviewProfile")}
                     </button>
                 </form>

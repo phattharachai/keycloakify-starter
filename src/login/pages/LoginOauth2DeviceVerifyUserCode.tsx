@@ -25,7 +25,7 @@ export default function LoginOauth2DeviceVerifyUserCode(
         >
             <form
                 id="kc-user-verify-device-user-code-form"
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-4"
                 action={url.oauth2DeviceVerificationAction}
                 method="post"
                 onSubmit={() => { setIsSubmitting(true); return true; }}
@@ -52,7 +52,7 @@ export default function LoginOauth2DeviceVerifyUserCode(
 
                 {/* Device code input */}
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="device-user-code" className="kt-form-label font-normal text-mono text-center">
+                    <label htmlFor="device-user-code" className="kt-form-label font-medium text-mono text-center">
                         {msg("verifyOAuth2DeviceUserCode")}
                     </label>
                     <input
