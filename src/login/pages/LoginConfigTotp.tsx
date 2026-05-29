@@ -104,7 +104,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
                         <div className="ms-8 rounded-lg border border-border divide-y divide-border text-sm">
                             <div className="flex justify-between px-3 py-2">
                                 <span className="text-secondary-foreground">{msg("loginTotpType")}</span>
-                                <span id="kc-totp-type" className="font-medium text-mono">{msg(`loginTotp.${totp.policy.type}` as any)}</span>
+                                <span id="kc-totp-type" className="font-medium text-mono">{msg(`loginTotp.${totp.policy.type}` as Parameters<typeof msg>[0])}</span>
                             </div>
                             <div className="flex justify-between px-3 py-2">
                                 <span className="text-secondary-foreground">{msg("loginTotpAlgorithm")}</span>

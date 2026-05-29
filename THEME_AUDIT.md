@@ -1,13 +1,16 @@
 # Theme Coverage Audit
 
-Updated: 2026-05-28 (rev 2)
+Updated: 2026-05-29 (rev 3)
 
 ## Summary
 
 - Theme types wired in [src/kc.gen.tsx](./src/kc.gen.tsx): `login`, `account`
-- Storybook runtime index: `145` stories
+- Storybook runtime index: `150` stories
 - Unique themed pages covered by stories: `45`
 - Runtime audit result: no page-level runtime failures detected across the 45 unique pages
+- Production build: 6 JAR artifacts produced (kc-21 through kc-26.2+) in `dist_keycloak/`
+- Lint: clean (0 errors) after rev-3 cleanup
+- Type-check: clean (`tsc --noEmit` exit 0)
 
 ## Coverage Checklist
 
@@ -147,4 +150,31 @@ Validated spot checks:
 
 1. ~~Localize hardcoded English eyebrow labels~~ — done via `withCustomTranslations` in [src/account/i18n.ts](./src/account/i18n.ts); keys: `accountEyebrow`, `passwordEyebrow`, `totpEyebrow`, `sessionsEyebrow`, `applicationsEyebrow`, `logEyebrow`, `federatedIdentityEyebrow`.
 2. ~~Format `sessions.ftl` timestamps~~ — done; `started`, `lastAccess`, `expires` all use `new Date(...).toLocaleString()` matching `log.ftl`.
-3. Add a screenshot / visual regression pass against representative login and account pages after structural changes.
+3. ~~Add a screenshot / visual regression pass against representative login and account pages after structural changes.~~ — done in rev 3; baseline captured for 7 login + 7 account screens (see Rev 3 notes below). Screenshots are stored in `.audit-screenshots/` (gitignored).
+
+## Rev 3 Notes (2026-05-29)
+
+### Visual regression baseline
+
+Captured 14 full-page screenshots via Storybook + chrome-devtools-mcp at 1440×900. Stored under `.audit-screenshots/` (gitignored). All screens rendered with no console errors or warnings.
+
+Login theme (7 screens):
+
+- `login.ftl`, `register.ftl`, `error.ftl`, `login-otp.ftl`, `login-config-totp.ftl`, `select-authenticator.ftl`, `terms.ftl`
+
+Account theme (7 screens):
+
+- `account.ftl`, `password.ftl`, `totp.ftl`, `sessions.ftl`, `applications.ftl`, `log.ftl`, `federatedIdentity.ftl`
+
+### Lint cleanup
+
+Resolved 3 outstanding ESLint findings without behavior change:
+
+- [src/account/KcContext.ts](./src/account/KcContext.ts) — removed stale `@typescript-eslint/ban-types` disable (rule no longer exists); switched to `@typescript-eslint/no-empty-object-type` inline disable for the intentionally-empty `KcContextExtensionPerPage`; replaced `Record<KcEnvName, string> & {}` with `Record<KcEnvName, string>`.
+- [src/login/KcContext.ts](./src/login/KcContext.ts) — same cleanup applied for consistency.
+- [src/login/pages/LoginConfigTotp.tsx](./src/login/pages/LoginConfigTotp.tsx) — replaced `as any` with `as Parameters<typeof msg>[0]` on the dynamic TOTP type message key.
+- [src/login/pages/LoginPasskeysConditionalAuthenticate.tsx](./src/login/pages/LoginPasskeysConditionalAuthenticate.tsx) — added a comment to the previously empty `catch {}` block (login element may be absent — non-fatal).
+
+### Production build verification
+
+`npm run build-keycloak-theme` ran clean in 14.03s and produced 6 JARs in [dist_keycloak/](./dist_keycloak/) targeting Keycloak versions 21 through 26.2+.

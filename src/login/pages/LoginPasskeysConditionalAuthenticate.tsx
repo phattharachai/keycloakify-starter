@@ -133,7 +133,9 @@ export default function LoginPasskeysConditionalAuthenticate(
                             try {
                                 // @ts-expect-error: native form element access
                                 event.target.login.disabled = true;
-                            } catch {}
+                            } catch {
+                                // login element may be absent — non-fatal
+                            }
                             return true;
                         }}
                     >
