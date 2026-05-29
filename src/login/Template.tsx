@@ -6,6 +6,7 @@ import { useInitialize } from "keycloakify/login/Template.useInitialize";
 import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
+import { AuthControls } from "./components/AuthControls";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -59,18 +60,42 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             <link rel="stylesheet" href={`${resourcesPath}/css/styles.css`} />
             <style>{`
                 .page-bg{background-image:linear-gradient(180deg,rgba(248,250,252,.92),rgba(248,250,252,.84)),url('${resourcesPath}/media/images/2600x1200/bg-10.png');}
-                .auth-shell .kt-card{border-color:rgba(226,232,240,.9);box-shadow:0 24px 80px rgba(15,23,42,.14),0 1px 2px rgba(15,23,42,.06);}
+                .auth-shell{box-sizing:border-box;min-height:100vh;min-height:100dvh;align-items:flex-start;padding-left:max(1rem,env(safe-area-inset-left));padding-right:max(1rem,env(safe-area-inset-right));}
+                .dark .page-bg{background-image:linear-gradient(180deg,rgba(9,9,11,.92),rgba(24,24,27,.88)),url('${resourcesPath}/media/images/2600x1200/bg-10.png');}
+                .auth-shell .kt-card{border-color:rgba(226,232,240,.9);background:color-mix(in oklab,var(--card) 96%,transparent);color:var(--card-foreground);box-shadow:0 24px 80px rgba(15,23,42,.14),0 1px 2px rgba(15,23,42,.06);}
+                .dark .auth-shell .kt-card{border-color:rgba(63,63,70,.9);box-shadow:0 24px 80px rgba(0,0,0,.38),0 1px 2px rgba(0,0,0,.22);}
+                .auth-shell .auth-logo{display:block;width:clamp(8.5rem,44vw,12.375rem);height:auto;max-height:2rem;object-fit:contain;}
+                .auth-shell .auth-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+                .auth-shell a,.auth-shell button,.auth-shell label{max-width:100%;}
+                .auth-shell .kt-btn span{min-width:0;overflow:hidden;text-overflow:ellipsis;}
                 .auth-shell .kt-input{min-height:44px;border-color:rgb(203,213,225);background:rgba(255,255,255,.96);transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;}
+                .dark .auth-shell .kt-input{border-color:rgb(63,63,70);background:rgba(24,24,27,.92);color:var(--foreground);}
+                .auth-shell .kt-select{min-height:44px;border-color:rgb(203,213,225);background-color:rgba(255,255,255,.96);background-position:right .75rem center;padding-inline:.75rem 2.25rem;border-radius:.5rem;transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;}
+                .auth-shell .auth-org-select{padding-inline-start:2.75rem;}
+                .auth-shell .auth-org-select-icon{position:absolute!important;inset-inline-start:.875rem;top:50%!important;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:1rem;height:1rem;line-height:1;pointer-events:none;transform:translateY(-50%)!important;}
+                .dark .auth-shell .kt-select{border-color:rgb(63,63,70);background-color:rgba(24,24,27,.92);color:var(--foreground);}
                 .auth-shell input.kt-input{min-height:44px;}
                 .auth-shell .kt-input:hover{border-color:rgb(148,163,184);}
+                .auth-shell .kt-select:hover{border-color:rgb(148,163,184);}
+                .dark .auth-shell .kt-input:hover{border-color:rgb(82,82,91);}
+                .dark .auth-shell .kt-select:hover{border-color:rgb(82,82,91);}
                 .auth-shell .kt-input:focus-within,.auth-shell input.kt-input:focus,.auth-shell .auth-password-input:focus-within{border-color:rgb(37,99,235);box-shadow:0 0 0 3px rgba(37,99,235,.14);background:#fff;}
+                .auth-shell .kt-select:focus{border-color:rgb(37,99,235);box-shadow:0 0 0 3px rgba(37,99,235,.14);background-color:#fff;outline:0;}
+                .dark .auth-shell .kt-input:focus-within,.dark .auth-shell input.kt-input:focus,.dark .auth-shell .auth-password-input:focus-within{border-color:rgb(59,130,246);box-shadow:0 0 0 3px rgba(59,130,246,.22);background:rgb(24,24,27);}
+                .dark .auth-shell .kt-select:focus{border-color:rgb(59,130,246);box-shadow:0 0 0 3px rgba(59,130,246,.22);background-color:rgb(24,24,27);}
                 .auth-shell .kt-input:has(input[aria-invalid="true"]),.auth-shell input.kt-input[aria-invalid="true"],.auth-shell .auth-password-input:has(input[aria-invalid="true"]){border-color:rgb(220,38,38);box-shadow:0 0 0 3px rgba(220,38,38,.10);}
                 .auth-shell .auth-password-input{display:flex;align-items:center;width:100%;height:44px;min-height:44px;padding:0 0.25rem 0 0.75rem;gap:0.5rem;border:1px solid rgb(203,213,225);border-radius:0.5rem;background:rgba(255,255,255,.96);box-shadow:0 1px 2px rgba(15,23,42,.05);transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;}
+                .dark .auth-shell .auth-password-input{border-color:rgb(63,63,70);background:rgba(24,24,27,.92);box-shadow:0 1px 2px rgba(0,0,0,.18);}
                 .auth-shell .auth-password-input:hover{border-color:rgb(148,163,184);}
+                .dark .auth-shell .auth-password-input:hover{border-color:rgb(82,82,91);}
                 .auth-shell .auth-password-input input{height:100%;min-width:0;width:100%;border:0;background:transparent;padding:0;color:rgb(15,23,42);outline:0;font-size:0.8125rem;}
+                .dark .auth-shell .auth-password-input input{color:var(--foreground);}
                 .auth-shell .auth-password-input input::placeholder{color:rgb(100,116,139);}
+                .dark .auth-shell .auth-password-input input::placeholder{color:rgb(113,113,122);}
                 .auth-shell .auth-password-toggle{appearance:none;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;border:0;border-radius:0.5rem;background:transparent;color:rgb(100,116,139);transition:color .18s ease,background-color .18s ease,box-shadow .18s ease;}
+                .dark .auth-shell .auth-password-toggle{color:rgb(161,161,170);}
                 .auth-shell .auth-password-toggle:hover{background:rgb(241,245,249);color:rgb(15,23,42);}
+                .dark .auth-shell .auth-password-toggle:hover{background:rgb(39,39,42);color:rgb(244,244,245);}
                 .auth-shell .auth-password-toggle:focus-visible{outline:0;box-shadow:0 0 0 2px rgba(37,99,235,.28);}
                 .auth-shell .kt-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;border-radius:.65rem;padding-inline:1rem;font-weight:600;line-height:1.25;transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,opacity .18s ease;}
                 .auth-shell .kt-btn:not(.kt-btn-sm):not(.kt-btn-icon){width:100%;}
@@ -78,7 +103,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 .auth-shell .kt-btn-primary{border-color:rgb(47,125,246);background:rgb(47,125,246);color:#fff;box-shadow:0 8px 18px rgba(47,125,246,.18);}
                 .auth-shell .kt-btn-primary:hover{border-color:rgb(37,99,235);background:rgb(37,99,235);color:#fff;}
                 .auth-shell .kt-btn-outline{border-color:rgb(203,213,225);background:#fff;color:rgb(51,65,85);box-shadow:0 1px 2px rgba(15,23,42,.04);}
+                .dark .auth-shell .kt-btn-outline{border-color:rgb(63,63,70);background:rgb(24,24,27);color:rgb(244,244,245);box-shadow:0 1px 2px rgba(0,0,0,.18);}
                 .auth-shell .kt-btn-outline:hover{border-color:rgb(148,163,184);background:rgb(248,250,252);color:rgb(15,23,42);}
+                .dark .auth-shell .kt-btn-outline:hover{border-color:rgb(82,82,91);background:rgb(39,39,42);color:#fff;}
                 .auth-shell .kt-btn:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(37,99,235,.20);}
                 .auth-shell .kt-btn-primary:focus-visible{box-shadow:0 0 0 3px rgba(37,99,235,.22),0 8px 18px rgba(47,125,246,.18);}
                 .auth-shell .kt-btn:disabled,.auth-shell .kt-btn[aria-disabled="true"]{opacity:.62;cursor:not-allowed;box-shadow:none;}
@@ -91,15 +118,19 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 .auth-shell .kt-label{min-height:32px;}
                 .auth-shell .auth-error{border:1px solid rgba(220,38,38,.18);background:rgba(254,242,242,.85);border-radius:.5rem;padding:.5rem .625rem;}
                 .auth-shell .auth-helper{color:rgb(71,85,105);}
+                @media (min-width: 421px) and (min-height: 720px){.auth-shell{align-items:center;}}
                 @media (max-width: 420px){.auth-shell .auth-action-row{flex-direction:column;}.auth-shell .auth-action-row .kt-btn:not(.kt-btn-sm):not(.kt-btn-icon){width:100%;}}
-                @media (prefers-reduced-motion: reduce){.auth-shell .kt-input,.auth-shell .kt-btn,.auth-shell .auth-password-toggle{transition:none;}}
+                @media (max-width: 360px){.auth-shell .kt-card-content{padding:1.25rem;}.auth-shell .auth-logo{width:8.25rem;}}
+                @media (prefers-reduced-motion: reduce){.auth-shell .kt-input,.auth-shell .kt-select,.auth-shell .kt-btn,.auth-shell .auth-password-toggle{transition:none;}}
             `}</style>
+
+            <AuthControls i18n={i18n} />
 
             <div
                 className="auth-shell flex items-center justify-center grow bg-center bg-no-repeat bg-cover page-bg px-4 py-6 sm:py-10"
                 style={{
-                    width: "100vw",
-                    maxWidth: "100vw",
+                    width: "100%",
+                    maxWidth: "100%",
                     overflowX: "hidden"
                 }}
             >

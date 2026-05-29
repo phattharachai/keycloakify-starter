@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
@@ -9,10 +10,11 @@ export default function LoginOauth2DeviceVerifyUserCode(
 ) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
-    const { url } = kcContext;
+    const { url, messagesPerField } = kcContext;
     const { msg, msgStr } = i18n;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const hasDeviceCodeError = messagesPerField.existsError("device_user_code");
 
 
     return (
@@ -21,6 +23,7 @@ export default function LoginOauth2DeviceVerifyUserCode(
             i18n={i18n}
             doUseDefaultCss={doUseDefaultCss}
             classes={classes}
+            displayMessage={!hasDeviceCodeError}
             headerNode={msg("oauth2DeviceVerificationTitle")}
         >
             <form
@@ -32,7 +35,7 @@ export default function LoginOauth2DeviceVerifyUserCode(
             >
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 {/* Icon + title */}
@@ -52,9 +55,6 @@ export default function LoginOauth2DeviceVerifyUserCode(
 
                 {/* Device code input */}
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="device-user-code" className="kt-form-label font-medium text-mono text-center">
-                        {msg("verifyOAuth2DeviceUserCode")}
-                    </label>
                     <input
                         id="device-user-code"
                         name="device_user_code"
@@ -63,7 +63,21 @@ export default function LoginOauth2DeviceVerifyUserCode(
                         autoComplete="off"
                         placeholder="XXXX-XXXX"
                         className="kt-input text-center tracking-[0.3em] text-lg font-medium uppercase"
+                        aria-label={msgStr("verifyOAuth2DeviceUserCode")}
+                        aria-invalid={hasDeviceCodeError}
+                        aria-describedby={hasDeviceCodeError ? "input-error-device-user-code" : undefined}
                     />
+                    {hasDeviceCodeError && (
+                        <span
+                            id="input-error-device-user-code"
+                            className="auth-error flex items-start justify-center gap-1.5 text-xs text-destructive mt-1"
+                            role="alert"
+                            aria-live="polite"
+                        >
+                            <i className="ki-filled ki-information-2 text-sm shrink-0 mt-px" />
+                            <span dangerouslySetInnerHTML={{ __html: kcSanitize(messagesPerField.get("device_user_code")) }} />
+                        </span>
+                    )}
                 </div>
 
                 {/* Submit */}

@@ -38,7 +38,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                 {/* Branding + title */}
                 <div className="text-center mb-1.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
-                        <img src={logoSrc} alt="Logo" className="h-8" />
+                        <img src={logoSrc} alt="Logo" className="auth-logo" />
                     </a>
                     <h3 className="text-lg font-medium text-mono leading-none mb-2.5">
                         {msg("doLogIn")}

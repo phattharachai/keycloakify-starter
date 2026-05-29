@@ -38,6 +38,22 @@ export const WithErrorMessage: Story = {
     )
 };
 
+export const WithFieldError: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                url: {
+                    oauth2DeviceVerificationAction: "/mock-oauth2-device-verification"
+                },
+                messagesPerField: {
+                    existsError: (fieldName: string) => fieldName === "device_user_code",
+                    get: (fieldName: string) => (fieldName === "device_user_code" ? "The user code you entered is invalid. Please try again." : undefined)
+                }
+            }}
+        />
+    )
+};
+
 /**
  * WithEmptyInputField:
  * - Purpose: Tests when the user code field is left empty.

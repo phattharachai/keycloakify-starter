@@ -30,7 +30,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
             <div className="flex flex-col gap-6">
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 {/* Title */}
@@ -180,7 +180,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
                     <div className="flex flex-col gap-1">
                         <label htmlFor="userLabel" className="kt-form-label font-normal text-mono">
                             {msg("loginTotpDeviceName")}
-                            {totp.otpCredentials.length >= 1 && <span className="text-destructive ms-1">*</span>}
+                            {totp.otpCredentials.length >= 1 && <> <span className="text-destructive">*</span></>}
                         </label>
                         <input
                             id="userLabel"

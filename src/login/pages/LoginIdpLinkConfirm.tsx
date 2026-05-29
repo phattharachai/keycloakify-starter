@@ -23,7 +23,7 @@ export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, 
             <div className="flex flex-col gap-4">
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 {/* Icon + title */}

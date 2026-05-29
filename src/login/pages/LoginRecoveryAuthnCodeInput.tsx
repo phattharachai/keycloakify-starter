@@ -35,7 +35,7 @@ export default function LoginRecoveryAuthnCodeInput(
             >
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 {/* Illustration */}
@@ -59,17 +59,18 @@ export default function LoginRecoveryAuthnCodeInput(
 
                 {/* Input */}
                 <div className="flex flex-col gap-1.5">
-                    <label htmlFor="recoveryCodeInput" className="sr-only">
-                        {msg("auth-recovery-code-header")}
-                    </label>
                     <input
                         id="recoveryCodeInput"
                         name="recoveryCodeInput"
                         type="text"
                         autoFocus
                         autoComplete="off"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         placeholder="xxxxx-xxxxx-xxxxx"
                         className="kt-input text-center font-mono tracking-wider"
+                        style={{ fontFamily: "var(--font-mono)" }}
+                        aria-label={msgStr("auth-recovery-code-prompt", `${recoveryAuthnCodesInputBean.codeNumber}`)}
                         aria-invalid={hasError}
                         aria-describedby={hasError ? "input-error-recovery" : undefined}
                     />

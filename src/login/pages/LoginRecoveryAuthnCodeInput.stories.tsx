@@ -15,3 +15,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     render: () => <KcPageStory />
 };
+
+export const WithFieldError: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                messagesPerField: {
+                    existsError: (fieldName: string) => fieldName === "recoveryCodeInput",
+                    get: (fieldName: string) => (fieldName === "recoveryCodeInput" ? "Invalid recovery authentication code." : undefined)
+                }
+            }}
+        />
+    )
+};

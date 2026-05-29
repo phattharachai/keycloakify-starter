@@ -21,7 +21,7 @@ export default function Code(props: PageProps<Extract<KcContext, { pageId: "code
         >
             <div className="flex flex-col gap-5">
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 <div className="flex flex-col items-center gap-3 text-center">
@@ -38,12 +38,16 @@ export default function Code(props: PageProps<Extract<KcContext, { pageId: "code
                         <p className="text-sm text-secondary-foreground text-center leading-relaxed">
                             {msg("copyCodeInstruction")}
                         </p>
-                        <textarea
+                        <input
                             id="code"
                             readOnly
-                            value={code.code}
-                            className="kt-input min-h-[112px] resize-none px-4 py-3 text-center font-mono text-base tracking-[0.24em]"
+                            defaultValue={code.code}
+                            className="kt-input text-center font-mono text-sm font-medium text-mono"
+                            style={{ fontFamily: "var(--font-mono)" }}
+                            spellCheck={false}
+                            autoCapitalize="none"
                             aria-label="Verification code"
+                            onFocus={event => event.currentTarget.select()}
                         />
                     </div>
                 ) : (

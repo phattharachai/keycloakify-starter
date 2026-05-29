@@ -8,6 +8,7 @@
 
 .account-shell {
     min-height: 100vh;
+    min-height: 100dvh;
     background: linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
 }
 
@@ -41,8 +42,9 @@
 }
 
 .account-brand__logo {
-    width: 46px;
-    height: 34px;
+    width: clamp(5.5rem, 12vw, 8.5rem);
+    height: auto;
+    max-height: 1.4rem;
     object-fit: contain;
     flex: 0 0 auto;
 }
@@ -75,6 +77,7 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: 0.75rem;
+    min-width: 0;
 }
 
 .account-locale-switcher {
@@ -99,6 +102,17 @@
     cursor: pointer;
     list-style: none;
     transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.account-locale-switcher summary span,
+.account-action-link span,
+.account-signout-btn span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .account-locale-switcher summary::-webkit-details-marker {
@@ -362,6 +376,7 @@ form {
     line-height: 1.15;
     font-weight: 700;
     color: #0f172a;
+    overflow-wrap: anywhere;
 }
 
 .account-card-form__description {
@@ -444,6 +459,7 @@ form {
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-left: auto;
+    min-width: 0;
 }
 
 @media (max-width: 960px) {
@@ -523,6 +539,7 @@ form {
 .account-credential-card__body {
     display: grid;
     gap: 0.65rem;
+    min-width: 0;
 }
 
 .account-credential-card__title {
@@ -533,6 +550,7 @@ form {
     font-size: 1rem;
     font-weight: 700;
     color: #0f172a;
+    overflow-wrap: anywhere;
 }
 
 .account-credential-card__meta {
@@ -558,6 +576,7 @@ form {
     margin: 0;
     color: #334155;
     font-size: 0.9rem;
+    overflow-wrap: anywhere;
 }
 
 .account-credential-card__actions {
@@ -574,11 +593,13 @@ form {
 .account-application-link {
     font-weight: 700;
     color: #0f172a;
+    overflow-wrap: anywhere;
 }
 
 .account-application-client-id {
     font-size: 0.8125rem;
     color: #64748b;
+    overflow-wrap: anywhere;
 }
 
 .account-permission-list {
@@ -598,6 +619,8 @@ form {
     color: #1e3a8a;
     font-size: 0.8125rem;
     font-weight: 600;
+    max-width: 100%;
+    overflow-wrap: anywhere;
 }
 
 .account-permission-pill.is-strong {
@@ -760,7 +783,7 @@ input[style*="display: none"] {
 @media (max-width: 768px) {
     .account-topbar__inner,
     .account-layout {
-        width: min(100vw - 1rem, 100%);
+        width: min(calc(100vw - 1rem), 100%);
     }
 
     .account-topbar__inner {
@@ -771,6 +794,12 @@ input[style*="display: none"] {
     .account-topbar__actions {
         width: 100%;
         justify-content: flex-start;
+    }
+
+    .account-locale-switcher,
+    .account-action-link,
+    .account-signout-btn {
+        max-width: 100%;
     }
 
     .account-panel__surface,
@@ -795,8 +824,9 @@ input[style*="display: none"] {
     }
 
     .account-brand__logo {
-        width: 42px;
-        height: 28px;
+        width: clamp(4.5rem, 24vw, 6.5rem);
+        height: auto;
+        max-height: 1.25rem;
     }
 
     .account-brand__eyebrow {
@@ -875,7 +905,7 @@ input[style*="display: none"] {
 
     .account-card-form__actions-right {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
     }
 
     .account-card-form__actions-right .kt-btn,

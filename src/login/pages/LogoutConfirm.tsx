@@ -14,7 +14,7 @@ export default function LogoutConfirm(props: PageProps<Extract<KcContext, { page
         <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("logoutConfirmTitle")}>
             <div className="flex flex-col gap-4">
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 <div className="flex flex-col items-center gap-3 text-center">

@@ -93,7 +93,7 @@ export default function Register(props: Props) {
                 {/* Logo + title */}
                 <div className="text-center mb-2.5">
                     <a href="#" className="flex justify-center mb-3" tabIndex={-1} aria-hidden="true">
-                        <img src={logoSrc} alt="Logo" className="h-8" />
+                        <img src={logoSrc} alt="Logo" className="auth-logo" />
                     </a>
 
                     {/* Inline icon badge + title */}

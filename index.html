@@ -5,6 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+
+        <script>
+            (function () {
+                try {
+                    var stored = localStorage.getItem("keycloakify-theme");
+                    var mode = stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+                    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                    var isDark = mode === "dark" || (mode === "system" && prefersDark);
+                    if (isDark) document.documentElement.classList.add("dark");
+                } catch (_) {}
+            })();
+        </script>
     </head>
 
     <body>

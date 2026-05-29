@@ -22,7 +22,7 @@ export default function WebauthnError(props: PageProps<Extract<KcContext, { page
         >
             <div className="flex flex-col gap-4">
                 <div className="flex justify-center">
-                    <img src={logoSrc} alt="Logo" className="h-8" />
+                    <img src={logoSrc} alt="Logo" className="auth-logo" />
                 </div>
 
                 <div className="flex flex-col items-center gap-3 text-center">
